@@ -70,7 +70,22 @@
     stage.appendChild(ctrl.el);
     chrome(ctrl.name);
     if (ctrl.layout) ctrl.layout();
+    fitButtons(ctrl.el);
     if (ctrl.enter) ctrl.enter();
+  }
+
+  /* Shrink button labels that would overflow (long words in narrow landscape columns). */
+  function fitButtons(root) {
+    $$('.btn', root).forEach(function (b) {
+      b.style.fontSize = '';
+      for (var k = 0; k < 6; k++) {
+        var cw = b.clientWidth, sw = b.scrollWidth;
+        if (!cw || sw <= cw + 1) break;
+        var fs = parseFloat(getComputedStyle(b).fontSize);
+        if (fs <= 12) break;
+        b.style.fontSize = Math.max(12, Math.floor(fs * Math.min(0.95, (cw - 4) / sw))) + 'px';
+      }
+    });
   }
 
   /* Shutter-blind wipe: cover, swap, uncover. */
@@ -980,7 +995,7 @@
   var rt = 0;
   function relayout() {
     clearTimeout(rt);
-    rt = setTimeout(B.guard(function () { B.measure(); if (cur && cur.layout) cur.layout(); }), 120);
+    rt = setTimeout(B.guard(function () { B.measure(); if (cur && cur.layout) cur.layout(); if (cur) fitButtons(cur.el); }), 120);
   }
   w.addEventListener('resize', relayout);
   w.addEventListener('orientationchange', relayout);
@@ -1015,7 +1030,7 @@
     if (saved && Date.now() - saved.ts < STALE_MS) { S = saved; resume(); }
     else show('home');
     // Refit once webfonts are in (metrics change); never blocks first paint.
-    if (d.fonts && d.fonts.ready) d.fonts.ready.then(function () { if (cur && cur.layout) cur.layout(); });
+    if (d.fonts && d.fonts.ready) d.fonts.ready.then(function () { if (cur && cur.layout) cur.layout(); if (cur) fitButtons(cur.el); });
   }
   B.guard(boot)();
 

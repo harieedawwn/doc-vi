@@ -29,6 +29,20 @@
     });
   }
 
+  // iOS 14.0–14.4 lacks flexbox gap: detect and let CSS fall back to margins.
+  function flexGap() {
+    try {
+      var f = d.createElement('div');
+      f.style.cssText = 'display:flex;flex-direction:column;row-gap:1px;position:absolute;visibility:hidden';
+      f.appendChild(d.createElement('div')); f.appendChild(d.createElement('div'));
+      root.appendChild(f);
+      var okGap = f.scrollHeight === 1;
+      root.removeChild(f);
+      return okGap;
+    } catch (e) { return true; }
+  }
+  if (!flexGap()) root.classList.add('no-fg');
+
   var ua = navigator.userAgent || '';
   root.classList.toggle('is-ios', /iPhone|iPad|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1));
   try { if (w.matchMedia('(prefers-reduced-motion: reduce)').matches) root.classList.add('reduce'); } catch (e) {}

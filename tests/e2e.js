@@ -69,6 +69,7 @@ async function audit(page, label) {
         if (el.scrollWidth > el.clientWidth + 2 && el.clientWidth > 0) out.push('clipped text ' + id + ' "' + el.textContent.trim().slice(0, 30) + '" ' + el.scrollWidth + '>' + el.clientWidth);
         if (r.top < -1 || r.bottom > H + 1) out.push('v-overflow text ' + id);
       }
+      if (el.matches('button') && el.scrollWidth > el.clientWidth + 2) out.push('button overflow ' + id + ' ' + el.scrollWidth + '>' + el.clientWidth);
       if (el.matches('button, input')) {
         if (r.top < sa.top - 1 || r.bottom > H - sa.bottom + 1 || r.left < sa.left - 1 || r.right > W - sa.right + 1) out.push('in safe area ' + id + ' ' + JSON.stringify([r.left, r.top, r.right, r.bottom].map(Math.round)));
         if (Math.min(r.width, r.height) < 44) out.push('small target ' + id + ' ' + Math.round(r.width) + 'x' + Math.round(r.height));

@@ -103,6 +103,7 @@ button:focus-visible { outline: var(--bw) solid var(--alert); outline-offset: 3p
 .hud-round { font-size: 13px; color: var(--dim); padding: 16px 10px; white-space: nowrap; touch-action: none; }
 .hud-steps { display: flex; gap: 4px; position: absolute; left: 50%; top: calc(var(--sat) + 26px); transform: translateX(-50%); }
 .hud-steps i { display: block; width: 18px; height: 4px; background: var(--line); }
+@media (max-width: 400px) { .hud-steps i { width: 11px; } }
 .hud-steps i.on { background: var(--ink); }
 .hud-steps i.now { background: var(--alert); }
 .app.on-light { background: var(--safe); }
@@ -137,7 +138,7 @@ button:focus-visible { outline: var(--bw) solid var(--alert); outline-offset: 3p
 /* ---------- buttons ---------- */
 .btn {
   position: relative; display: flex; align-items: center; justify-content: center; gap: 12px;
-  min-height: var(--tap); padding: 10px 18px;
+  width: 100%; min-height: var(--tap); padding: 10px 18px;
   border: var(--bw) solid var(--ink); border-radius: 2px;
   background: var(--surface); color: var(--ink);
   font-family: var(--f-d); font-weight: 900; font-size: clamp(16px, 4.6vw, 22px); line-height: 1.4;
@@ -280,7 +281,7 @@ button:focus-visible { outline: var(--bw) solid var(--alert); outline-offset: 3p
 
 /* ---------- REVEAL ---------- */
 .reveal { z-index: 60; background: var(--bg); overflow: hidden; display: grid; place-items: center; }
-.cd { position: absolute; font-family: var(--f-m); font-weight: 700; line-height: 1; font-size: min(70vw, 55vh); }
+.cd { position: absolute; font-family: var(--f-m); font-weight: 700; line-height: 1; font-size: min(96vw, 62vh); }
 .burst { position: absolute; left: 50%; top: 50%; width: 10px; height: 10px; margin: -5px 0 0 -5px; transform: rotate(45deg) scale(0); }
 .burst.safe { background: var(--safe); } .burst.out { background: var(--out); }
 .burst.rim { background: none; border: 1px solid var(--ink); }
@@ -362,3 +363,12 @@ button:focus-visible { outline: var(--bw) solid var(--alert); outline-offset: 3p
   .lbl { font-size: 16px; }
   .chip { min-height: 80px; }
 }
+
+/* ---------- no flex-gap fallback (iOS 14.0–14.4) ---------- */
+.no-fg .scr > * + *, .no-fg .side > * + *, .no-fg .form > * + *, .no-fg .home-actions > * + *,
+.no-fg .choices > * + *, .no-fg .meta > * + *, .no-fg .recover-box > * + *, .no-fg .rv > * + *,
+.no-fg .peek .res > * + *, .no-fg .reel-box > * + * { margin-top: 12px; }
+.no-fg .row > * + *, .no-fg .chips > * + *, .no-fg .duo > * + *, .no-fg .crown > * + *, .no-fg .loser > * + *,
+.no-fg .b-line > * + *, .no-fg .btn > .ico + span, .no-fg .hl > .ico + span { margin-left: 10px; }
+.no-fg .btn-sm .hl > * + *, .no-fg .btn-sm > .ico + span, .no-fg .choice .hl > * + *, .no-fg .pad .hl > * + * { margin-left: 0; margin-top: 6px; }
+.no-fg.is-land .home > * + *, .no-fg.is-land .roles > * + *, .no-fg.is-land .decide .choices > * + * { margin-top: 0; margin-left: 16px; }
